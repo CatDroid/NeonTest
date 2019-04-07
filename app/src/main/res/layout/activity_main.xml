@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.hanlon.neontest.MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="普通方式"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <Button
+            android:id="@+id/bNeon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Neon方式"
+            tools:layout_editor_absoluteX="114dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+        <Button
+            android:id="@+id/bMul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Neon乘法" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
