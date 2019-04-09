@@ -52,3 +52,24 @@ void mul2_neon(const float v0[2], const float v1[2], float out[2])
 //    *((float32x2_t*)out) = result ;
     vst1_f32(out, result );
 }
+
+
+extern "C"
+void unsigned_sub_result_signed(){
+    uint8x8_t a = vhsub_u8 (vdup_n_u8(4),vdup_n_u8(6) );
+    uint8_t result[8];
+    vst1_u8(result, a);
+    LOGW("[unsigned_sub_result_signed] %x", result[0]);
+}
+
+
+extern "C"
+void narrow_add(){
+    // int8x8_t vraddhn_s16 (int16x8_t __a, int16x8_t __b);
+
+    int8x8_t a = vaddhn_s16 (vdupq_n_s16(255),vdupq_n_s16(1) );
+    uint8_t result[8];
+    vst1_u8(result, a);
+    LOGW("[unsigned_sub_result_signed] %x", result[0]);
+}
+
