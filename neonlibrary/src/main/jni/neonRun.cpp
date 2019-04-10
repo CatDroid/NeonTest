@@ -105,6 +105,11 @@ int test2(){
 }
 
 
+int test3(){
+
+    narrow_add();
+    return 0;
+}
 
 
 int main(int argc, char* argv[]){
@@ -112,12 +117,13 @@ int main(int argc, char* argv[]){
     LOGE("TEST START %s " , __TIME__ );
 
 
-    int32_t ret = 0 ;
+//    int32_t ret = 0 ;
+//
+//    ret += test1();
+//
+//    ret += test2();
 
-    ret += test1();
-
-    ret += test2();
-
+    test3();
 
     return 0;
 }
