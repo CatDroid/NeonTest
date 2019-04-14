@@ -2,6 +2,8 @@
 
 #include <arm_neon.h>
 
+#include <math.h>
+
 #include "localLog.h"
 
 extern "C"
@@ -96,6 +98,57 @@ void narrow_add(){
         vst1_u8(result, a);
         LOGW("[s16->s8 high haft][32767+1] %x", result[0]); // 0x80
     }
+
+    {
+        /*
+         *
+         *  "vqdmulhq" = "v" + "q" + "d" + "mul" + "h" + "q"
+         *  b和c是16位的话 饱和(b * c * 2) >> 16
+         *
+         *  b*c*2 计算的结果按照32bits 然后饱和 再取32bits的高16bits
+         *
+            "v" = "vector"，向量。
+            "q" = 饱和。
+            "d" = "doubling"，双倍。
+            "mul" = 乘法。
+            "h" = "high"，高位。
+            "q" = QWORD，全字，128位。
+
+         */
+        int16x4_t a = vqdmulh_s16(vdup_n_s16(16384),vdup_n_s16( (int16_t)pow(2,5)) );
+        int16_t result[4];
+        vst1_s16(result, a);
+        LOGW("[饱和(b * c * 2作为S32来做饱和) >> 16] %x %x %x %x ",
+             result[0],result[1],result[2],result[3]); // 0x10
+    }
+
+
+    {
+        /*
+
+            "vqrdmulhq" = "v" + "r" + "q" + "d" + "mul" + "h" + "q"
+
+            b和c是16位的话  a = 饱和(b * c * 2 + 2^15) >> 16
+
+            b*c*2 计算的结果按照32bits 然后饱和 再取32bits的高16bits
+
+            "v" = "vector"，向量。
+            "r" = "rounding"，舍入。
+            "q" = 饱和。
+            "d" = "doubling"，双倍。
+            "mul" = 乘法。
+            "h" = "high"，高位。
+            "q" = QWORD，全字，128位
+
+         */
+        // 28672 = 0111 0000 0000 0000
+        int16x4_t a = vqrdmulh_s16(vdup_n_s16(28672),vdup_n_s16( (int16_t)pow(2,2)) );
+        int16_t result[4];
+        vst1_s16(result, a);
+        LOGW("[a = 饱和(b * c * 2 + 2^15) >> 16] %x %x %x %x ",
+             result[0],result[1],result[2],result[3]); // 0x4
+    }
+
 
 }
 
